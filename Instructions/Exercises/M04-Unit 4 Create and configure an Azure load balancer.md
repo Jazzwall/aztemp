@@ -40,7 +40,7 @@ In this section, you will create a virtual network and a subnet.
    | **Setting**    | **Value**                                  |
    | -------------- | ------------------------------------------ |
    | Subscription   | Select your subscription                   |
-   | Resource group | Select **Create  new**  Name: **IntLB-RG** |
+   | Resource group | Select Your resrouce group                 |
    | Name           | **IntLB-VNet**                             |
    | Region         | **(US) West US**                           |
 
