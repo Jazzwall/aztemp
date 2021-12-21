@@ -6,6 +6,7 @@ Exercise:
 
 
 # M04-Unit 4 Create and configure an Azure load balancer
+## *Temp Lab with fixes*
 
 In this exercise, you will create an internal load balancer for the fictional Contoso Ltd organization. 
 
@@ -41,7 +42,7 @@ In this section, you will create a virtual network and a subnet.
    | Subscription   | Select your subscription                   |
    | Resource group | Select **Create  new**  Name: **IntLB-RG** |
    | Name           | **IntLB-VNet**                             |
-   | Region         | **(US) East US**                           |
+   | Region         | **(US) West US**                           |
 
 
 5. Click **Next : IP Addresses**.
@@ -75,19 +76,31 @@ In this section, you will create a virtual network and a subnet.
 
 In this section, you will create three VMs, that will be in the same availability set, for the backend pool of the load balancer, add the VMs to the backend pool, and then install IIS on the three VMs to test the load balancer.
 
-1. In the Azure portal, open the **PowerShell** session within the **Cloud Shell** pane.
+1. Select **Cloud Shell** from the Azure Portal tool bar.
 
-2. In the toolbar of the Cloud Shell pane, click the Upload/Download files icon, in the drop-down menu, click Upload and upload the following files azuredeploy.json, azuredeploy.parameters.vm1.json, azuredeploy.parameters.vm2.json and azuredeploy.parameters.vm3.json into the Cloud Shell home directory.
+2. Select **PowerShell** on the Welcome screen.
 
-3. Deploy the following ARM templates to create the virtual network, subnets, and VMs needed for this exercise:
+3. In the **You have no storage mounted** pane, click **Show advanced** settings, perform the following tasks:
+   - Leave the **Subscription** drop-down list entry set to its default value.
 
+   - In the **Cloud Shell region** drop-down list, select the Azure region matching or near the location where you intend to deploy resources in this exercise.
+
+   - In the **Resource group** section, select the Resource Group that has been created for you.
+
+   - In the **Storage account** section, ensure that the **Create new option** is selected and then, in the text box below, type a unique name consisting of a combination of between 3 and 24 characters and digits (*Note: Storage Account names must be lowercase*).
+
+   - In the **File share** section, ensure that the **Create new** option is selected and then, in the text box below, type **cloudshell**.
+
+   - Click the Create storage button.
+
+4. Wait for the **Cloud Shell** to finish its first-time setup procedures before you proceed to the next task.
+
+5. Deploy the following ARM template to create the virtual network, subnets, and VMs needed for this exercise:
    ```powershell
-   $RGName = "IntLB-RG"
-   
-   New-AzResourceGroupDeployment -ResourceGroupName $RGName -TemplateFile azuredeploy.json -TemplateParameterFile azuredeploy.parameters.vm1.json
-   New-AzResourceGroupDeployment -ResourceGroupName $RGName -TemplateFile azuredeploy.json -TemplateParameterFile azuredeploy.parameters.vm2.json
-   New-AzResourceGroupDeployment -ResourceGroupName $RGName -TemplateFile azuredeploy.json -TemplateParameterFile azuredeploy.parameters.vm3.json
+   New-AzResourceGroupDeployment -AsJob -ResourceGroupName **YourRG** -TemplateUri https://raw.githubusercontent.com/godeploy/AZ-700/master/Instructions/Exercises/vm-template/azuredeploy.json
+
    ```
+
 
 ## Task 3: Create the load balancer
 
@@ -109,7 +122,7 @@ In this section, you will create an internal Standard SKU load balancer. The rea
    | Subscription          | Select your subscription |
    | Resource group        | **IntLB-RG**             |
    | Name                  | **myIntLoadBalancer**    |
-   | Region                | **(US) East US**         |
+   | Region                | **(US) West US**         |
    | Type                  | **Internal**             |
    | SKU                   | **Standard**             |
 
@@ -228,7 +241,7 @@ In this section, you will create a test VM, and then test the load balancer.
    | Subscription         | Select your subscription                     |
    | Resource group       | **IntLB-RG**                                 |
    | Virtual machine name | **myTestVM**                                 |
-   | Region               | **(US) East US**                             |
+   | Region               | **(US) West US**                             |
    | Availability options | **No infrastructure redundancy required**    |
    | Image                | **Windows Server 2019 Datacenter - Gen 1**   |
    | Size                 | **Standard_DS1_v2 - 1 vcpu, 3.5 GiB memory** |
@@ -287,7 +300,7 @@ In this section, you will create a test VM, and then test the load balancer.
 13. If you click the refresh button in the browser a few times, you will see that the response comes randomly from the different VMs in the backend pool of the internal load balancer.
     ![Picture 9](../media/load-balancer-web-test-2.png)
 
-## Clean up resources
+## Clean up resources *- Optional*
 
    >**Note**: Remember to remove any newly created Azure resources that you no longer use. Removing unused resources ensures you will not see unexpected charges.
 
